@@ -178,7 +178,7 @@ log_aircraft1_ev <- data.frame(
       var_explained = log_aircraft1_pr$sdev^2
     )
 
-    ggplot(log_aircraft1_ev, aes(y = var_explained)) +
+ggplot(log_aircraft1_ev, aes(y = var_explained)) +
       geom_line(aes(x = component, group = 1)) +
       geom_point(aes(x = component)) +
       labs(x = "Component", y = "Variance Explained") +
@@ -195,11 +195,11 @@ log_aircraft2_ev <- data.frame(
       var_explained = log_aircraft2_pr$sdev^2
     )
 
-    ggplot(log_aircraft2_ev, aes(y = var_explained)) +
+ggplot(log_aircraft2_ev, aes(y = var_explained)) +
       geom_line(aes(x = component, group = 1)) +
       geom_point(aes(x = component)) +
       labs(x = "Component", y = "Variance Explained") +
-      ggtitle("Eigenvalues - Period 1")
+      ggtitle("Eigenvalues - Period 2")
 
 ```
 
@@ -231,7 +231,6 @@ pc1pc32 <- ggplot(pc_scores2, aes(x = PC1, y = PC3)) +
 
 
 figure <- ggarrange(pc1pc21, pc1pc31, pc1pc22, pc1pc32,
-                    # labels = c("PC1 vs PC2", "PC1 vs PC3", "PC2 vs PC3"),
                     ncol = 2, nrow = 2)
 figure
 ```
@@ -254,8 +253,6 @@ logWeight contributed the most to PC1 in both periods. It contributed slightly m
 All the variables are in the left quadrants. logRange and logSpeed are in the positive quadrant and the rest are in the negative quadrant in period 1 whereas in period 2, the variables are divided equally. logSpeed and logWeight are inversely correlated in both periods. logRange and logPower are also inversely correlated and this relationship became stronger in period 2.
 
 The range and power changed drastically over the two periods. The correlation between these two variables became stronger.
-
-Year: year of first manufacture - Period: a code to indicate one of three broad time periods - Power: total engine power (kW) - Span: wing span (m) - Length: length (m) - Weight: maximum take-off weight (kg) - Speed: maximum speed (km/h) - Range: range (km)
 
 # Question 4
 
