@@ -7,7 +7,7 @@ output:
 
 **Setup**
 
-```{r}
+```{r, include=FALSE}
 setwd("C:/Users/user/OneDrive - The University of Western Australia/Units/STAT3064/Labs/Assignment1")
 
 rm(list = ls())
