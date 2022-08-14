@@ -1,0 +1,86 @@
+---
+title: "Assignment1"
+author: "Carmen"
+date: "2022-08-14"
+output: pdf_document
+---
+
+```{setwd("C:/Users/user/OneDrive - The University of Western Australia/Units/STAT3064/Labs/Lab1")}
+
+rm(list = ls())
+
+if (!is.null(sessionInfo()$otherPkgs)) {
+  invisible(
+    lapply(paste0('package:', names(sessionInfo()$otherPkgs)), 
+           detach, character.only=TRUE, unload=TRUE)
+  )
+}
+
+options(stringsAsFactors = FALSE)
+```
+
+### 
+
+2. Consider the aircraft data with the logged variables as in Question 2 of Computer Lab 1. Divide the data into two period groups consisting of the same number of observations. We are interested in comparing changes that occur over time.
+
+```{r}
+df = read.csv('aircraft.csv')
+df0 = data.frame(
+Year = df$Year,
+Period = factor(df$Period),
+logPower = log10(df$Power),
+logSpan = log10(df$Span),
+logLength = log10(df$Length),
+logWeight = log10(df$Weight),
+logSpeed = log10(df$Speed),
+logRange = log10(df$Range))
+```
+
+```{r}
+df0 = within(df0, Period[Year<= 45] <- 1)
+df0 = within(df0, Period[Year> 45] <- 2)
+df0
+```
+
+#### 
+(a) Show smoothed histograms of logLength and logPower separately for the two periods. Comment on the shapes of the histograms and how the change over time affects this shape.
+
+```{r}
+ggplot(df0, (aes(logLength,group = Period, colour = Period))) +
+  geom_density()
+
+ggplot(df0, (aes(logPower,group = Period, colour = Period ))) +
+  geom_density()
+```
+
+For the smooth histogram for logLength, the density graph for both period is skewed to the left, indicating that the mean is less than the median. We can also see from the graph there are only one peak in the distribution for both period, indicating that they are unimodal.
+
+However, the density graph for period 2 is less skewed to the left and more distributed across as compared to the density graph for period 1.
+
+For the smooth histogram for logPower, the density graph for period 1 is not skewed and can be considered as a normal distribution. However, the density graph for period 2 is skewed to the right and is bimodal.
+
+#### 
+(b) Construct contour plots of the 2D smoothed histograms of the pairs (logPower, logWeight) and (logSpeed, logLength). Describe the shapes of the density plot and discuss how they change over time.
+
+```{r}
+ggplot( df0, aes( logPower, logWeight ) ) +
+geom_density_2d( ) +
+geom_point( aes( colour = Period ), alpha = 0.6 ) +
+theme( legend.position = "bottom")
+
+ggplot( df0, aes( logSpeed, logLength ) ) +
+geom_density_2d( ) +
+geom_point( aes( colour = Period ), alpha = 0.6 ) +
+theme( legend.position = "bottom")
+```
+
+For the fist density plot which represent the 2D smoothed histograms of the pairs (logPower,
+logWeight). We can see that the graph is unimodel and is skewed to the right for both periods, indicating a positive correlation between the speed and the weight of an aircraft. We can also observe from the graph that there are more plots of period 2 on the upper right quadrant, indicating that aircraft are designed to be more powerful and heavier over time.
+
+For the second density plot which represent the 2D smoothed histograms of the pairs (logSpeed,
+logLength). We can see that the pattern of the graph is different for the two periods. For period 1, the graph is more concentrated and can be seen as a unimodel graph. However, for period 2, the graph is more distributed and can be considered as a multimodel graph. It can also be observed from the graph that, over the time, aircrafts are designed to be more specialised and are of more variation in speed and length, such as faster aircraft or longer aircraft.
+
+#### 
+(c) For which pair of variables would you expect the largest change in correlation or shape of their density over time and why?
+
+I would expect the pair of variable logSpeed, logLength to have the largest change in correlation or shape of their density over time. The density plot for the pairs (logPower, logWeight) shows consistent correlation between power and weight over the two periods. However, the density plot for the pairs (logSpeed, logLength) shows that the correlation between speed and length changes over time as we can see that the graph chages from unimodel to multimodel over the two periods.
