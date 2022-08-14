@@ -8,7 +8,7 @@ output:
 **Setup**
 
 ```{r, include=FALSE}
-setwd("C:/Users/user/OneDrive - The University of Western Australia/Units/STAT3064/Labs/Assignment1")
+setwd("~/Library/CloudStorage/OneDrive-TheUniversityofWesternAustralia")
 
 rm(list = ls())
 
@@ -39,7 +39,7 @@ library(dplyr)
 
 Reproducible calculation means that the result of the calculation will always be the same when given the same input to the calculation. The ability to reproduce simulations refers to the ability for a two separate users to run a simulation study and receive the same results given that they configure the model with the same parameters. Because the random number generators are deterministic, using and sharing fixed seed values with others will allow them to get the same results.
 
-These are important in situations where you want to share your results with others since they may want to verify your results. If they re-run your code, they can see the results you generated. Reproduciblity is helpful in debugging programs written to do simulation\
+These are important in situations where you want to share your results with others since they may want to verify your results. If they re-run your code, they can see the results you generated. Reproduciblity is also helpful in debugging programs written to do simulation\
 
 ## (b) When is it a sensible strategy to use the Gaussian model in a simulation? When is it not and why? (Hint. Your answer could contain an illustrative example.)
 
@@ -68,7 +68,6 @@ Each "coordinate" in a principal component is orthogonal and the kth pc vector p
 ## (a) Show smoothed histograms of logLength and logPower separately for the two periods. Comment on the shapes of the histograms and how the change over time affects this shape.
 
 ```{r}
-library(ggplot2)
 df = read.csv('aircraft.csv')
 df0 = data.frame(
 Year = df$Year,
@@ -90,11 +89,11 @@ ggplot(df0, (aes(logPower,group = Period, colour = Period ))) +
   geom_density()
 ```
 
-For the smooth histogram for logLength, the density graph for both period is skewed to the left, indicating that the mean is less than the median. We can also see from the graph there are only one peak in the distribution for both period, indicating that they are unimodal.
+For the smooth histogram for logLength, the density graph for both period is skewed to the right, indicating that the mean is less than the median. We can also see from the graph there are only one peak in the distribution for both period, indicating that they are unimodal.
 
-However, the density graph for period 2 is less skewed to the left and more distributed across as compared to the density graph for period 1.
+However, the density graph for period 2 is less skewed to the right and more distributed across as compared to the density graph for period 1.
 
-For the smooth histogram for logPower, the density graph for period 1 is not skewed and can be considered as a normal distribution. However, the density graph for period 2 is skewed to the right and is bimodal.
+For the smooth histogram for logPower, the density graph for period 1 is not skewed and can be considered as a normal distribution. However, the density graph for period 2 is skewed to the left and is bimodal.
 
 ## (b) Construct contour plots of the 2D smoothed histograms of the pairs (logPower, logWeight) and (logSpeed, logLength). Describe the shapes of the density plot and discuss how they change over time.
 
@@ -110,7 +109,7 @@ geom_point( aes( colour = Period ), alpha = 0.6 ) +
 theme( legend.position = "bottom")
 ```
 
-For the fist density plot which represent the 2D smoothed histograms of the pairs (logPower, logWeight). We can see that the graph is unimodel and is skewed to the right for both periods, indicating a positive correlation between the speed and the weight of an aircraft. We can also observe from the graph that there are more plots of period 2 on the upper right quadrant, indicating that aircraft are designed to be more powerful and heavier over time.
+For the first density plot which represent the 2D smoothed histograms of the pairs (logPower, logWeight). We can see that the graph is unimodel and is skewed in the direction of positive correlation for both periods, indicating a strong positive correlation between the speed and the weight of an aircraft. We can also observe from the graph that there are more plots of period 2 on the upper right quadrant, indicating that aircraft are designed to be more powerful and heavier over time.
 
 For the second density plot which represent the 2D smoothed histograms of the pairs (logSpeed, logLength). We can see that the pattern of the graph is different for the two periods. For period 1, the graph is more concentrated and can be seen as a unimodel graph. However, for period 2, the graph is more distributed and can be considered as a multimodel graph. It can also be observed from the graph that, over the time, aircrafts are designed to be more specialised and are of more variation in speed and length, such as faster aircraft or longer aircraft.
 
@@ -235,7 +234,7 @@ figure <- ggarrange(pc1pc21, pc1pc31, pc1pc22, pc1pc32,
 figure
 ```
 
-The above figure shows 4 score plots. The 2 plots at the top are the score plots for period 1 and the 2 plots at the bottom are for period 2. The PC1/PC2 plot for period 2 has less spread than the PC1/PC2 plot for period 1. The 4 plots are in the left quadrants and the plots are divided into 2 quadrants evenly. The PC1/PC2 plots for both periods show that the
+The above figure shows 4 score plots. The 2 plots at the top are the score plots for period 1 and the 2 plots at the bottom are for period 2. The PC1/PC2 plot for period 2 has less spread than the PC1/PC2 plot for period 1. The PC1 scores are negative. The PC2 and PC3 scores . The PC1/PC2 plots for both periods show that the
 
 ## (d) Which logged variable contributes most to PC1 for each period? Does this change across the two periods? Comments on the results.
 
