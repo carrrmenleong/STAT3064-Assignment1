@@ -49,7 +49,7 @@ This occurs in 2 main circumstances:
 
 1.  When the data being modelled natrually comes from a gaussian (rare) - e.g. assuming gaussian noise on observations.
 
-2.  The data you're modelling comes from realisations of sums/means of other random variables. Because of the law of large numbers, we know that the distribution of the sample mean is asymptotically normal. Example: looking at voter preferences in different districts (each district's "mean" outlook on a topic is a sample mean of individual results).
+2.  The data you're modelling comes from realisations of sums/means of other random variables. Because of the central limit theorem, we know that the distribution of the sample mean is asymptotically normal. Example: looking at voter preferences in different districts (each district's "mean" outlook on a topic is a sample mean of individual results).
 
 If your support is not all real numbers, then gaussian model is wrong (e.g. wait times in a queueing model). Gaussian distributions also have extremly flat tails, so they often underestimate "rare" events - therefore it might not be a good idea to model systems which have infrequent shocks (e.g. stock prices) with Gaussians. Gaussians are also unimodal & symmetric which may not correpsond to the system you are modelling.
 
