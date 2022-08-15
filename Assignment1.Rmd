@@ -8,7 +8,7 @@ output:
 **Setup**
 
 ```{r, include=FALSE}
-setwd("~/Library/CloudStorage/OneDrive-TheUniversityofWesternAustralia")
+setwd("~/Library/CloudStorage/OneDrive-TheUniversityofWesternAustralia/Data Sets")
 
 rm(list = ls())
 
@@ -23,6 +23,7 @@ options(stringsAsFactors = FALSE)
 ```
 
 ```{r, results='hide', message=FALSE, warning=FALSE, fig.show='hide'}
+library(ggbiplot)
 library(reshape2)
 library(tidyverse)
 library(MASS)
@@ -125,8 +126,17 @@ I would expect the pair of variable logSpeed, logLength to have the largest chan
 aircraft <- read.csv('aircraft.csv')
 ```
 
+Regrouping periods
+
 ```{r, results='hide', message=FALSE, warning=FALSE, fig.show='hide'}
-log_aircraft <- data.frame(Year = aircraft$Year, Period = as.factor(aircraft$Period))
+aircraft$Period[aircraft$Year <= 42] <- 1
+aircraft$Period[aircraft$Year > 42] <- 2
+aircraft$Period <- as.factor(aircraft$Period)
+str(aircraft)
+```
+
+```{r, results='hide', message=FALSE, warning=FALSE, fig.show='hide'}
+log_aircraft <- data.frame(Year = aircraft$Year, Period = aircraft$Period)
 log_aircraft$logPower <- log10(aircraft$Power)
 log_aircraft$logSpan <- log10(aircraft$Span)
 log_aircraft$logLength <- log10(aircraft$Length)
@@ -155,6 +165,7 @@ str(log_aircraft2)
 ## (a) Separately for the two periods selected in Q2, carry out a principal component analysis using `prcomp` based on the logged data (without scaling).
 
 ```{r, results='hide', message=FALSE, warning=FALSE, fig.show='hide'}
+
 log_aircraft1_pr <- prcomp(log_aircraft1, center = F, scale = F)
 log_aircraft1_pr
 ```
@@ -240,9 +251,17 @@ The above figure shows 4 score plots. The 2 plots at the top are the score plots
 
 Period 1 and Period 2
 
-```{r, results='hide', message=FALSE, warning=FALSE, fig.show='hide'}
+```{r}
 biplot(log_aircraft1_pr, col = c("white", "blue"), xlim=c(-0.10, 0.0), ylim=c(-0.005, 0.005))
 biplot(log_aircraft2_pr, col = c("white", "blue"), xlim=c(-0.10, 0.0), ylim=c(-0.005, 0.005))
+```
+
+```{r}
+ggbiplot(log_aircraft1_pr)
+ggbiplot(log_aircraft2_pr)
+log_aircraft_pr <- prcomp(log_aircraft[,3:8], center = F, scale = F)
+ggbiplot(log_aircraft_pr, col) +
+  scale_color_discrete(name = '')
 ```
 
 logWeight contributed the most to PC1 in both periods. It contributed slightly more in period 2 than period 1 and still remains as the most contributed variables across the 2 periods. logRange and logPower contributed immensely in period 2. This change might be due to companies favoring long-distance travels or aerodynamic frame designs.
