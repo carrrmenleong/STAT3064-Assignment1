@@ -32,6 +32,7 @@ library(mvtnorm)
 library(scales)
 library(ggpubr)
 library(dplyr)
+library(factoextra)
 ```
 
 # Question 1
@@ -164,16 +165,20 @@ str(log_aircraft2)
 
 ## (a) Separately for the two periods selected in Q2, carry out a principal component analysis using `prcomp` based on the logged data (without scaling).
 
-```{r, results='hide', message=FALSE, warning=FALSE, fig.show='hide'}
-
-log_aircraft1_pr <- prcomp(log_aircraft1, center = F, scale = F)
-log_aircraft1_pr
-```
+Centering the data for pca.
 
 Period 1
 
 ```{r, results='hide', message=FALSE, warning=FALSE, fig.show='hide'}
-log_aircraft2_pr <- prcomp(log_aircraft2, center = F, scale = F)
+
+log_aircraft1_pr <- prcomp(log_aircraft1, center = T, scale = F)
+log_aircraft1_pr
+```
+
+Period 2
+
+```{r, results='hide', message=FALSE, warning=FALSE, fig.show='hide'}
+log_aircraft2_pr <- prcomp(log_aircraft2, center = T, scale = F)
 log_aircraft2_pr
 ```
 
@@ -182,44 +187,24 @@ log_aircraft2_pr
 Period 1
 
 ```{r}
-log_aircraft1_ev <- data.frame(
-      component = factor(seq_along(log_aircraft1_pr$sdev), 
-                         labels = paste0("PC", seq_along(log_aircraft1_pr$sdev))),
-      var_explained = log_aircraft1_pr$sdev^2,
-      cum_var_explained = cumsum(log_aircraft1_pr$sdev^2 / sum(log_aircraft1_pr$sdev^2))
-    )
-
-ggplot(log_aircraft1_ev, aes(y = var_explained)) +
-      geom_line(aes(x = component, group = 1)) +
-      geom_point(aes(x = component)) +
-      labs(x = "Component", y = "Variance Explained") +
-      ggtitle("Eigenvalues - Period 1")
-
+fviz_screeplot(log_aircraft1_pr, choice = "eigenvalue") + 
+  ggtitle("Eigenvalues - Period 1") + 
+  xlab("Component")
 ```
 
 Period 2
 
 ```{r}
-log_aircraft2_ev <- data.frame(
-      component = factor(seq_along(log_aircraft2_pr$sdev), 
-                         labels = paste0("PC", seq_along(log_aircraft2_pr$sdev))),
-      var_explained = log_aircraft2_pr$sdev^2,
-      cum_var_explained = cumsum(log_aircraft2_pr$sdev^2 / sum(log_aircraft2_pr$sdev^2))
-    )
-
-ggplot(log_aircraft2_ev, aes(y = var_explained)) +
-      geom_line(aes(x = component, group = 1)) +
-      geom_point(aes(x = component)) +
-      labs(x = "Component", y = "Variance Explained") +
-      ggtitle("Eigenvalues - Period 2")
-
+fviz_screeplot(log_aircraft2_pr, choice = "eigenvalue") + 
+  ggtitle("Eigenvalues - Period 2") + 
+  xlab("Component")
 ```
 
-In the figures above, we can see that the first component of both plots are greater than 35. These principal components explain 99% of the variation in both periods. The figures show that the eigenvalues start to form a stairght line after the second principal component.
+In the figures above, we can see that the first component of both plots are greater than 35. These principal components explain 99% of the variation in both periods. The figures show that the eigenvalues start to form a stairght line after the second principal component. The first eigenvalue increaased by approximately 2 times in the second period.
 
 ## (c) Show score plots for the first three PCs for each period. Comment on the results.
 
-Period 1 and Period 2
+Plotting PC2 against PC1 for each period.
 
 ```{r}
 pc_scores1 <- data.frame(log_aircraft1_pr$x)
@@ -229,6 +214,10 @@ pc1pc21 <- ggplot(pc_scores1, aes(x = PC1, y = PC2)) +
       ggtitle("Period 1")
 
 pc1pc31 <- ggplot(pc_scores1, aes(x = PC1, y = PC3)) +
+      geom_point(alpha = 0.5, colour = "blue") +
+      ggtitle("Period 1")
+
+pc2pc31 <- ggplot(pc_scores1, aes(x = PC2, y = PC3)) +
       geom_point(alpha = 0.5, colour = "blue") +
       ggtitle("Period 1")
 
@@ -243,37 +232,55 @@ pc1pc32 <- ggplot(pc_scores2, aes(x = PC1, y = PC3)) +
       geom_point(alpha = 0.5) +
       ggtitle("Period 2")
 
+pc2pc32 <- ggplot(pc_scores2, aes(x = PC2, y = PC3)) +
+      geom_point(alpha = 0.5) +
+      ggtitle("Period 2")
 
-figure <- ggarrange(pc1pc21, pc1pc31, pc1pc22, pc1pc32,
-                    ncol = 2, nrow = 2)
+
+figure <- ggarrange(pc1pc21, pc1pc31, pc2pc31, pc1pc22, pc1pc32, pc2pc32,
+                    ncol = 3, nrow = 2)
 figure
 ```
 
-The above figure shows 4 score plots. The 2 plots at the top are the score plots for period 1 and the 2 plots at the bottom are for period 2. The PC1/PC2 plot for period 2 has less spread than the PC1/PC2 plot for period 1. The PC1 scores are negative. The PC2 and PC3 scores . The PC1/PC2 plots for both periods show that the
+The above figure shows 6 score plots. The 3 plots at the top are the score plots for period 1 and the 3 plots at the bottom are for period 2. The range of values is larger in period 2 than in period 1 which also means that the observations are more spread out in period 2. We can see that observations are more concentrated on the point of origin in period 1 than period 2. The PC1/PC2 plots look like the letter T and the shape looks more distinctive in period 2.
 
 ## (d) Which logged variable contributes most to PC1 for each period? Does this change across the two periods? Comments on the results.
 
-Period 1 and Period 2
-
 ```{r}
-biplot(log_aircraft1_pr, col = c("white", "blue"), xlim=c(-0.10, 0.0), ylim=c(-0.005, 0.005))
-biplot(log_aircraft2_pr, col = c("white", "blue"), xlim=c(-0.10, 0.0), ylim=c(-0.005, 0.005))
+fviz_pca_var(log_aircraft1_pr, col.var="contrib",
+             gradient.cols = c("#00AFBB", "#E7B800", "#FC4E07"),
+             repel = TRUE # Avoid text overlapping
+             ) + 
+  labs(x = "PC1", y = "PC2") +
+  ggtitle("Biplot - Period 1")
+fviz_pca_var(log_aircraft2_pr, col.var="contrib",
+             gradient.cols = c("#00AFBB", "#E7B800", "#FC4E07"),
+             repel = TRUE # Avoid text overlapping
+             ) + 
+  labs(x = "PC1", y = "PC2") +
+  ggtitle("Biplot - Period 2")
 ```
 
 ```{r}
-ggbiplot(log_aircraft1_pr)
-ggbiplot(log_aircraft2_pr)
-log_aircraft_pr <- prcomp(log_aircraft[,3:8], center = F, scale = F)
-ggbiplot(log_aircraft_pr)
+fviz_contrib(log_aircraft1_pr, choice = "var", axes = 1) +
+  ggtitle("Contribution of variables to PC1 for period 1") +
+  ylim(0, 50)
+
+fviz_contrib(log_aircraft2_pr, choice = "var", axes = 1) +
+  ggtitle("Contribution of variables to PC1 for period 2") +
+  ylim(0, 50)
 ```
 
-logWeight contributed the most to PC1 in both periods. It contributed slightly more in period 2 than period 1 and still remains as the most contributed variables across the 2 periods. logRange and logPower contributed immensely in period 2. This change might be due to companies favoring long-distance travels or aerodynamic frame designs.
+```{r}
+log_aircraft1_pr$rotation[,"PC1"] # Period 1
+log_aircraft2_pr$rotation[,"PC1"] # Period 2
+```
+
+logWeight contributed the most in the first period whereas logPower contributed the most in the second period. The contribution from logPower increased drastically in period 2 and logRange has lesser contributions in period 2 than period 1. The contributions from the last 4 variables seem insignificant compared to the contributions from logWeight and logPower.
 
 ## (e) Based on your analysis, discuss the main changes that have occurred over time.
 
-All the variables are in the left quadrants. logRange and logSpeed are in the positive quadrant and the rest are in the negative quadrant in period 1 whereas in period 2, the variables are divided equally. logSpeed and logWeight are inversely correlated in both periods. logRange and logPower are also inversely correlated and this relationship became stronger in period 2.
-
-The range and power changed drastically over the two periods. The correlation between these two variables became stronger.
+Weight and power are strongly positively correlated are likely to increase even more in the future. The correlation between speed and range decreases over time and they are now uncorrelated. Aircraft are more specialised for speed or range now.
 
 # Question 4
 
