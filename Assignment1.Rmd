@@ -1,5 +1,9 @@
 ---
 title: "Assignment1"
+author :
+  - "Michael Nef(123456789)"
+  - "Carmen Leong(123456789)"
+  - "Nicholas Choong(21980614)"
 output:
   pdf_document: default
   html_notebook: default
