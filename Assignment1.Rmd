@@ -14,8 +14,10 @@ rm(list = ls())
 
 if (!is.null(sessionInfo()$otherPkgs)) {
   invisible(
-    lapply(paste0('package:', names(sessionInfo()$otherPkgs)), 
-           detach, character.only=TRUE, unload=TRUE)
+    lapply(paste0("package:", names(sessionInfo()$otherPkgs)),
+      detach,
+      character.only = TRUE, unload = TRUE
+    )
   )
 }
 
@@ -70,24 +72,25 @@ Each "coordinate" in a principal component is orthogonal and the kth pc vector p
 ## (a) Show smoothed histograms of logLength and logPower separately for the two periods. Comment on the shapes of the histograms and how the change over time affects this shape.
 
 ```{r}
-df = read.csv('aircraft.csv')
-df0 = data.frame(
-Year = df$Year,
-Period = factor(df$Period),
-logPower = log10(df$Power),
-logSpan = log10(df$Span),
-logLength = log10(df$Length),
-logWeight = log10(df$Weight),
-logSpeed = log10(df$Speed),
-logRange = log10(df$Range))
+df <- read.csv("aircraft.csv")
+df0 <- data.frame(
+  Year = df$Year,
+  Period = factor(df$Period),
+  logPower = log10(df$Power),
+  logSpan = log10(df$Span),
+  logLength = log10(df$Length),
+  logWeight = log10(df$Weight),
+  logSpeed = log10(df$Speed),
+  logRange = log10(df$Range)
+)
 
-df0 = within(df0, Period[Year<= 45] <- 1)
-df0 = within(df0, Period[Year> 45] <- 2)
+df0 <- within(df0, Period[Year <= 45] <- 1)
+df0 <- within(df0, Period[Year > 45] <- 2)
 
-ggplot(df0, (aes(logLength,group = Period, colour = Period))) +
+ggplot(df0, (aes(logLength, group = Period, colour = Period))) +
   geom_density()
 
-ggplot(df0, (aes(logPower,group = Period, colour = Period ))) +
+ggplot(df0, (aes(logPower, group = Period, colour = Period))) +
   geom_density()
 ```
 
@@ -100,15 +103,15 @@ For the smooth histogram for logPower, the density graph for period 1 is not ske
 ## (b) Construct contour plots of the 2D smoothed histograms of the pairs (logPower, logWeight) and (logSpeed, logLength). Describe the shapes of the density plot and discuss how they change over time.
 
 ```{r}
-ggplot( df0, aes( logPower, logWeight ) ) +
-geom_density_2d( ) +
-geom_point( aes( colour = Period ), alpha = 0.6 ) +
-theme( legend.position = "bottom")
+ggplot(df0, aes(logPower, logWeight)) +
+  geom_density_2d() +
+  geom_point(aes(colour = Period), alpha = 0.6) +
+  theme(legend.position = "bottom")
 
-ggplot( df0, aes( logSpeed, logLength ) ) +
-geom_density_2d( ) +
-geom_point( aes( colour = Period ), alpha = 0.6 ) +
-theme( legend.position = "bottom")
+ggplot(df0, aes(logSpeed, logLength)) +
+  geom_density_2d() +
+  geom_point(aes(colour = Period), alpha = 0.6) +
+  theme(legend.position = "bottom")
 ```
 
 For the first density plot which represent the 2D smoothed histograms of the pairs (logPower, logWeight). We can see that the graph is unimodel and is skewed in the direction of positive correlation for both periods, indicating a strong positive correlation between the speed and the weight of an aircraft. We can also observe from the graph that there are more plots of period 2 on the upper right quadrant, indicating that aircraft are designed to be more powerful and heavier over time.
@@ -124,7 +127,7 @@ I would expect the pair of variable logSpeed, logLength to have the largest chan
 ## Loading data
 
 ```{r, results='hide', message=FALSE, warning=FALSE, fig.show='hide'}
-aircraft <- read.csv('aircraft.csv')
+aircraft <- read.csv("aircraft.csv")
 ```
 
 Regrouping periods
@@ -150,7 +153,7 @@ str(log_aircraft)
 ### Period 1
 
 ```{r, results='hide', message=FALSE, warning=FALSE, fig.show='hide'}
-log_aircraft1 <- log_aircraft[log_aircraft$Year <= 42,3:8]
+log_aircraft1 <- log_aircraft[log_aircraft$Year <= 42, 3:8]
 tail(log_aircraft1)
 str(log_aircraft1)
 ```
@@ -158,7 +161,7 @@ str(log_aircraft1)
 ### Period 2
 
 ```{r, results='hide', message=FALSE, warning=FALSE, fig.show='hide'}
-log_aircraft2 <- log_aircraft[log_aircraft$Year > 42,3:8]
+log_aircraft2 <- log_aircraft[log_aircraft$Year > 42, 3:8]
 head(log_aircraft2)
 str(log_aircraft2)
 ```
@@ -187,16 +190,16 @@ log_aircraft2_pr
 Period 1
 
 ```{r}
-fviz_screeplot(log_aircraft1_pr, choice = "eigenvalue") + 
-  ggtitle("Eigenvalues - Period 1") + 
+fviz_screeplot(log_aircraft1_pr, choice = "eigenvalue") +
+  ggtitle("Eigenvalues - Period 1") +
   xlab("Component")
 ```
 
 Period 2
 
 ```{r}
-fviz_screeplot(log_aircraft2_pr, choice = "eigenvalue") + 
-  ggtitle("Eigenvalues - Period 2") + 
+fviz_screeplot(log_aircraft2_pr, choice = "eigenvalue") +
+  ggtitle("Eigenvalues - Period 2") +
   xlab("Component")
 ```
 
@@ -210,35 +213,36 @@ Plotting PC2 against PC1 for each period.
 pc_scores1 <- data.frame(log_aircraft1_pr$x)
 
 pc1pc21 <- ggplot(pc_scores1, aes(x = PC1, y = PC2)) +
-      geom_point(alpha = 0.5, colour = "blue") +
-      ggtitle("Period 1")
+  geom_point(alpha = 0.5, colour = "blue") +
+  ggtitle("Period 1")
 
 pc1pc31 <- ggplot(pc_scores1, aes(x = PC1, y = PC3)) +
-      geom_point(alpha = 0.5, colour = "blue") +
-      ggtitle("Period 1")
+  geom_point(alpha = 0.5, colour = "blue") +
+  ggtitle("Period 1")
 
 pc2pc31 <- ggplot(pc_scores1, aes(x = PC2, y = PC3)) +
-      geom_point(alpha = 0.5, colour = "blue") +
-      ggtitle("Period 1")
+  geom_point(alpha = 0.5, colour = "blue") +
+  ggtitle("Period 1")
 
 
 pc_scores2 <- data.frame(log_aircraft2_pr$x)
 
 pc1pc22 <- ggplot(pc_scores2, aes(x = PC1, y = PC2)) +
-      geom_point(alpha = 0.5) +
-      ggtitle("Period 2")
+  geom_point(alpha = 0.5) +
+  ggtitle("Period 2")
 
 pc1pc32 <- ggplot(pc_scores2, aes(x = PC1, y = PC3)) +
-      geom_point(alpha = 0.5) +
-      ggtitle("Period 2")
+  geom_point(alpha = 0.5) +
+  ggtitle("Period 2")
 
 pc2pc32 <- ggplot(pc_scores2, aes(x = PC2, y = PC3)) +
-      geom_point(alpha = 0.5) +
-      ggtitle("Period 2")
+  geom_point(alpha = 0.5) +
+  ggtitle("Period 2")
 
 
 figure <- ggarrange(pc1pc21, pc1pc31, pc2pc31, pc1pc22, pc1pc32, pc2pc32,
-                    ncol = 3, nrow = 2)
+  ncol = 3, nrow = 2
+)
 figure
 ```
 
@@ -247,16 +251,18 @@ The above figure shows 6 score plots. The 3 plots at the top are the score plots
 ## (d) Which logged variable contributes most to PC1 for each period? Does this change across the two periods? Comments on the results.
 
 ```{r}
-fviz_pca_var(log_aircraft1_pr, col.var="contrib",
-             gradient.cols = c("#00AFBB", "#E7B800", "#FC4E07"),
-             repel = TRUE # Avoid text overlapping
-             ) + 
+fviz_pca_var(log_aircraft1_pr,
+  col.var = "contrib",
+  gradient.cols = c("#00AFBB", "#E7B800", "#FC4E07"),
+  repel = TRUE # Avoid text overlapping
+) +
   labs(x = "PC1", y = "PC2") +
   ggtitle("Biplot - Period 1")
-fviz_pca_var(log_aircraft2_pr, col.var="contrib",
-             gradient.cols = c("#00AFBB", "#E7B800", "#FC4E07"),
-             repel = TRUE # Avoid text overlapping
-             ) + 
+fviz_pca_var(log_aircraft2_pr,
+  col.var = "contrib",
+  gradient.cols = c("#00AFBB", "#E7B800", "#FC4E07"),
+  repel = TRUE # Avoid text overlapping
+) +
   labs(x = "PC1", y = "PC2") +
   ggtitle("Biplot - Period 2")
 ```
@@ -272,8 +278,8 @@ fviz_contrib(log_aircraft2_pr, choice = "var", axes = 1) +
 ```
 
 ```{r}
-log_aircraft1_pr$rotation[,"PC1"] # Period 1
-log_aircraft2_pr$rotation[,"PC1"] # Period 2
+log_aircraft1_pr$rotation[, "PC1"] # Period 1
+log_aircraft2_pr$rotation[, "PC1"] # Period 2
 ```
 
 logWeight contributed the most in the first period whereas logPower contributed the most in the second period. The contribution from logPower increased drastically in period 2 and logRange has lesser contributions in period 2 than period 1. The contributions from the last 4 variables seem insignificant compared to the contributions from logWeight and logPower.
@@ -293,12 +299,12 @@ set.seed(2733)
 ```
 
 ```{r}
-ass2pop <- read.csv('ass2pop.csv', header=FALSE)
+ass2pop <- read.csv("ass2pop.csv", header = FALSE)
 mean1 <- ass2pop$V1
 mean2 <- ass2pop$V2
 
-cov1 <- data.matrix(subset(ass2pop, select=V3:V22))
-cov2 <- data.matrix(subset(ass2pop, select=V23:V42))
+cov1 <- data.matrix(subset(ass2pop, select = V3:V22))
+cov2 <- data.matrix(subset(ass2pop, select = V23:V42))
 
 print(dim(cov1))
 ```
@@ -313,26 +319,26 @@ N1 <- 250
 N2 <- 150
 eig <- list()
 
-samples1 <- rmvnorm(N1, mean=mean1, sigma=cov1)
-samples2 <- rmvnorm(N2, mean=mean2, sigma=cov2)
+samples1 <- rmvnorm(N1, mean = mean1, sigma = cov1)
+samples2 <- rmvnorm(N2, mean = mean2, sigma = cov2)
 samples <- rbind(samples1, samples2)
 samplecov <- cov(samples)
 print(round(samplecov, 2))
 eigenresult <- eigen(samplecov)
 vals <- list(eigenresult$values)
 eig <- append(eig, vals)
-save(vals, file="./eigens/normal_eigen/1.RData")
+save(vals, file = "./eigens/normal_eigen/1.RData")
 
 for (i in 2:50) {
-  samples1 <- rmvnorm(N1, mean=mean1, sigma=cov1)
-  samples2 <- rmvnorm(N2, mean=mean2, sigma=cov2)
+  samples1 <- rmvnorm(N1, mean = mean1, sigma = cov1)
+  samples2 <- rmvnorm(N2, mean = mean2, sigma = cov2)
   samples <- rbind(samples1, samples2)
   samplecov <- cov(samples)
   eigenresult <- eigen(samplecov)
   vals <- list(eigenresult$values)
   eig <- append(eig, vals)
-  filename <- paste("./eigens/normal_eigen/", toString(i), ".RData", sep="")
-  save(vals, file=filename)
+  filename <- paste("./eigens/normal_eigen/", toString(i), ".RData", sep = "")
+  save(vals, file = filename)
 }
 
 mat <- t(do.call("cbind", eig))
@@ -344,10 +350,10 @@ colnames(m) <- c("value", "Var1")
 m["Var2"] <- rep(0, 20)
 
 data <- melt(t(mat))
-p <- data %>% 
-  ggplot(aes(x=Var1, y=value, group=Var2)) +
-  geom_line(alpha=0.1) + 
-  geom_line(data=m, colour="red")
+p <- data %>%
+  ggplot(aes(x = Var1, y = value, group = Var2)) +
+  geom_line(alpha = 0.1) +
+  geom_line(data = m, colour = "red")
 
 print(p)
 
@@ -389,14 +395,14 @@ eig <- list()
 for (i in 1:50) {
   scale1 <- ((df1 - 2) / df1) * cov1
   scale2 <- ((df2 - 2) / df2) * cov2
-  samples1 <- mean1 + rmvt(N1, sigma=scale1, df=10)
-  samples2 <- mean2 + rmvt(N2, sigma=scale2, df=2)
+  samples1 <- mean1 + rmvt(N1, sigma = scale1, df = 10)
+  samples2 <- mean2 + rmvt(N2, sigma = scale2, df = 2)
   samples <- rbind(samples1, samples2)
   samplecov <- cov(samples)
   eigenresult <- eigen(samplecov)
   vals <- list(eigenresult$values)
-  filename <- paste("./eigens/t_eigen/", toString(i), ".RData", sep="")
-  save(vals, file=filename)
+  filename <- paste("./eigens/t_eigen/", toString(i), ".RData", sep = "")
+  save(vals, file = filename)
   eig <- append(eig, vals)
 }
 
@@ -409,10 +415,10 @@ colnames(m) <- c("value", "Var1")
 m["Var2"] <- rep(0, 20)
 
 data <- melt(t(mat))
-p <- data %>% 
-  ggplot(aes(x=Var1, y=value, group=Var2)) +
-  geom_line(alpha=0.1) + 
-  geom_line(data=m, colour="red")
+p <- data %>%
+  ggplot(aes(x = Var1, y = value, group = Var2)) +
+  geom_line(alpha = 0.1) +
+  geom_line(data = m, colour = "red")
 
 print(p)
 print(round(meaneig, 3))
