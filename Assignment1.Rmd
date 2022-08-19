@@ -1,15 +1,14 @@
 ---
 title: "Assignment1"
-author :
-  - "Michael Nef(123456789)"
-  - "Carmen Leong(123456789)"
-  - "Nicholas Choong(21980614)"
+author:
+- Michael Nef(123456789)
+- Carmen Leong(123456789)
+- Nicholas Choong(21980614)
 output:
   pdf_document: default
   html_notebook: default
+  word_document: default
 ---
-
-**Setup**
 
 ```{r, include=FALSE}
 setwd("~/Library/CloudStorage/OneDrive-TheUniversityofWesternAustralia/Data Sets")
@@ -28,7 +27,7 @@ if (!is.null(sessionInfo()$otherPkgs)) {
 options(stringsAsFactors = FALSE)
 ```
 
-```{r, results='hide', message=FALSE, warning=FALSE, fig.show='hide'}
+```{r, include=FALSE, results='hide', message=FALSE, warning=FALSE, fig.show='hide'}
 library(ggbiplot)
 library(reshape2)
 library(tidyverse)
@@ -207,7 +206,7 @@ fviz_screeplot(log_aircraft2_pr, choice = "eigenvalue") +
   xlab("Component")
 ```
 
-In the figures above, we can see that the first component of both plots are greater than 35. These principal components explain 99% of the variation in both periods. The figures show that the eigenvalues start to form a stairght line after the second principal component. The first eigenvalue increaased by approximately 2 times in the second period.
+The figures above show that the first components of both plots are greater than 35. These principal components explain 99% of the variation in both periods. The figures also show that the eigenvalues start to form a straight line after the second principal component. The first eigenvalue increased by approximately two times in the second period.
 
 ## (c) Show score plots for the first three PCs for each period. Comment on the results.
 
@@ -250,7 +249,7 @@ figure <- ggarrange(pc1pc21, pc1pc31, pc2pc31, pc1pc22, pc1pc32, pc2pc32,
 figure
 ```
 
-The above figure shows 6 score plots. The 3 plots at the top are the score plots for period 1 and the 3 plots at the bottom are for period 2. The range of values is larger in period 2 than in period 1 which also means that the observations are more spread out in period 2. We can see that observations are more concentrated on the point of origin in period 1 than period 2. The PC1/PC2 plots look like the letter T and the shape looks more distinctive in period 2.
+The above figure shows six score plots. The three plots at the top are the score plots for period 1, and the three at the bottom are for period 2. The range of values is larger in period 2 than in period 1, which also means that the observations are more spread out in period 2. We can see that the observations are more concentrated on the point of origin in period 1 than in period 2. The PC1/PC2 plots look like the letter T, and the shape looks more distinctive in period 2.
 
 ## (d) Which logged variable contributes most to PC1 for each period? Does this change across the two periods? Comments on the results.
 
@@ -286,11 +285,11 @@ log_aircraft1_pr$rotation[, "PC1"] # Period 1
 log_aircraft2_pr$rotation[, "PC1"] # Period 2
 ```
 
-logWeight contributed the most in the first period whereas logPower contributed the most in the second period. The contribution from logPower increased drastically in period 2 and logRange has lesser contributions in period 2 than period 1. The contributions from the last 4 variables seem insignificant compared to the contributions from logWeight and logPower.
+logWeight contributed the most in the first period, whereas logPower contributed the most in the second. The contribution from logPower increased drastically in period 2, and logRange has lesser contributions in period 2 than in period 1. The contributions from the last four variables seem insignificant compared to those from logWeight and logPower.
 
 ## (e) Based on your analysis, discuss the main changes that have occurred over time.
 
-Weight and power are strongly positively correlated are likely to increase even more in the future. The correlation between speed and range decreases over time and they are now uncorrelated. Aircraft are more specialised for speed or range now.
+Weight and power are strongly positively correlated and are likely to increase even more. The correlation between speed and range decreases over time and is now uncorrelated. This might be due to aircraft being more specialised for speed or range. Companies may have shifted away from increasing the range as aircraft can only travel so far before reaching the opposite side of Earth.
 
 # Question 4
 
