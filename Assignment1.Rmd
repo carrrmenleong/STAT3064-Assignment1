@@ -293,6 +293,7 @@ The covariance matrix is $20 \times 20$.
 
 ```{r, results='hide', message=FALSE, warning=FALSE, fig.show='hide'}
 
+set.seed(2733)
 N1 <- 250
 N2 <- 150
 eig <- list()
@@ -353,28 +354,29 @@ Therefore, in total, our sample is: 400 x 20
 
 ## (d) **Calculate the mean vector of eigenvalues over the 50 repetitions and list/print this mean vector.**
 
-[10.180 4.442 1.918 1.260 0.982 0.845 0.637 0.397 0.348 0.272 0.213 0.172 0.130 0.069 0.046 0.032 0.024 0.013 0.006 0.000]
+[10.180 4.442 1.918 1.260 0.982 0.845 0.637 0.397 0.348 0.272 0.213 0.172 0.130 0.069 0.046 0.032 0.024 0.013]
 
 ## (e) **Display the 50 vectors of eigenvalues and their mean vector in an eigenvalue or scree plot. How similar are these eigenvalue plots? Where does the largest deviation from the mean vector occur?**
 
-They are very similar, the largest deviation occurs in the first PC which has deviation approximately 1.
+They are very similar, the largest deviation occurs in the first PC which has a range of about 9-11.
 
-![](images/paste-71C4FFA6.png){width="660"}
+![](images/paste-64366D66.png)
 
 ## Student-t Distribution Analysis
 
 ```{r, results='hide', message=FALSE, warning=FALSE, fig.show='hide'}
 
+set.seed(2733)
 N1 <- 250
 N2 <- 150
 df1 <- 10
-df2 <- 2
+df2 <- 3
 eig <- list()
 for (i in 1:50) {
   scale1 <- ((df1 - 2) / df1) * cov1
   scale2 <- ((df2 - 2) / df2) * cov2
-  samples1 <- mean1 + rmvt(N1, sigma = scale1, df = 10)
-  samples2 <- mean2 + rmvt(N2, sigma = scale2, df = 2)
+  samples1 <- mean1 + rmvt(N1, sigma = scale1, df = df1)
+  samples2 <- mean2 + rmvt(N2, sigma = scale2, df = df2)
   samples <- rbind(samples1, samples2)
   samplecov <- cov(samples)
   eigenresult <- eigen(samplecov)
@@ -406,23 +408,13 @@ print(round(meaneig, 3))
 
 **Calculate the mean vector of eigenvalues over the 50 repetitions and list/print this mean vector.**
 
-[9.414 3.167 1.190 1.007 0.748 0.577 0.469 0.298 0.208 0.171 0.147 0.117 0.070 0.053 0.037 0.020 0.015 0.009 0.005 0.000]
+[10.991 4.108 1.728 1.378 1.022 0.862 0.724 0.449 0.349 0.287 0.241 0.189 0.137 0.112 0.074 0.031 0.024 0.017]
 
 **Display the 50 vectors of eigenvalues and their mean vector in an eigenvalue or scree plot. How similar are these eigenvalue plots? Where does the largest deviation from the mean vector occur?**
 
-The largest deviation occurs in the first PC which is approximately 4. It's varies quite a lot.
-
-![](images/paste-984B7383.png)
+The largest deviation occurs in the first PC which is approximately 4. It's varies quite a lot (range is about 8-35).
 
 ## (g) **Compare the results of the two different simulations and comment on interesting findings and differences between them. Why do we expect differences between the pairs of simulations?**
-
-Normal
-
-![](images/paste-1ABCDD69.png)
-
-Student-t
-
-![](images/paste-5BB2F104.png){width="680"}
 
 The t-distribution has much more variance in the generated scree plots. Additionally, the t-distribution has much more of the total variance captured by the first eigenvalue whereas the normal distribution has a shallower gradient.
 
