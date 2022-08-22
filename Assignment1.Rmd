@@ -87,8 +87,8 @@ df0 <- data.frame(
   logRange = log10(df$Range)
 )
 
-df0 <- within(df0, Period[Year <= 45] <- 1)
-df0 <- within(df0, Period[Year > 45] <- 2)
+df0 <- within(df0, Period[Year <= 42] <- 1)
+df0 <- within(df0, Period[Year > 42] <- 2)
 
 ggplot(df0, (aes(logLength, group = Period, colour = Period))) +
   geom_density()
@@ -129,34 +129,10 @@ I would expect the pair of variable logSpeed, logLength to have the largest chan
 
 ## Loading data
 
-```{r, results='hide', message=FALSE, warning=FALSE, fig.show='hide'}
-aircraft <- read.csv("aircraft.csv")
-```
-
-Regrouping periods
-
-```{r, results='hide', message=FALSE, warning=FALSE, fig.show='hide'}
-aircraft$Period[aircraft$Year <= 42] <- 1
-aircraft$Period[aircraft$Year > 42] <- 2
-aircraft$Period <- as.factor(aircraft$Period)
-str(aircraft)
-```
-
-```{r, results='hide', message=FALSE, warning=FALSE, fig.show='hide'}
-log_aircraft <- data.frame(Year = aircraft$Year, Period = aircraft$Period)
-log_aircraft$logPower <- log10(aircraft$Power)
-log_aircraft$logSpan <- log10(aircraft$Span)
-log_aircraft$logLength <- log10(aircraft$Length)
-log_aircraft$logWeight <- log10(aircraft$Weight)
-log_aircraft$logSpeed <- log10(aircraft$Speed)
-log_aircraft$logRange <- log10(aircraft$Range)
-str(log_aircraft)
-```
-
 ### Period 1
 
 ```{r, results='hide', message=FALSE, warning=FALSE, fig.show='hide'}
-log_aircraft1 <- log_aircraft[log_aircraft$Year <= 42, 3:8]
+log_aircraft1 <- df0[df0$Period == 1, 3:8]
 tail(log_aircraft1)
 str(log_aircraft1)
 ```
@@ -164,7 +140,7 @@ str(log_aircraft1)
 ### Period 2
 
 ```{r, results='hide', message=FALSE, warning=FALSE, fig.show='hide'}
-log_aircraft2 <- log_aircraft[log_aircraft$Year > 42, 3:8]
+log_aircraft2 <- df0[df0$Period == 2, 3:8]
 head(log_aircraft2)
 str(log_aircraft2)
 ```
