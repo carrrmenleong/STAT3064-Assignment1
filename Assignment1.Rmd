@@ -61,11 +61,7 @@ If your support is not all real numbers, then gaussian model is wrong (e.g. wait
 
 ## (c) Consider a random sample of observations X = [X1, . . . , Xn]. Why would we expect that, typically, the variables of the sample X are correlated, but the principal component scores obtained from these variables are not?
 
-There are two main reasons why your observations may be correlated:
-
-1.  The original sampling method was biased in some way, for example, if you used convenience sampling to draw your sample you can expect that they would have similar/correlated values.
-
-2.  Your data comes from samples of a signal (e.g. each Xi is a sequence of stock prices) and since the whole market tends to move together, we would expect our Xis to be correlated.
+Given an observation Xi, the entries within this observation are likely to be correlated in general. This is because usually an observation is a measurement of some system, likely many aspects of a system are interrelated. For example, if a measurement was of a particular person's health vitals, having no pulse will likely be correlated with other negative health effects (e.g. low blood pressure).
 
 Each "coordinate" in a principal component is orthogonal and the kth pc vector points in the a direction of kth most variance. Because of the orthognonality and because we have centered our data, the resulting PC vectors will be uncorrelated.
 
