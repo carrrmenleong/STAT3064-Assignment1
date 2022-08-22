@@ -418,4 +418,4 @@ The largest deviation occurs in the first PC which is approximately 4. It's vari
 
 The t-distribution has much more variance in the generated scree plots. Additionally, the t-distribution has much more of the total variance captured by the first eigenvalue whereas the normal distribution has a shallower gradient.
 
-We expect to see differences because the two distributions are different and hence the covariances will be different.
+We expect to see differences because the two distributions are different and hence the covariances will be different. Additionally, t-distributions have much fatter tails than normals so we expect more "outliers" and thus more total variance.
