@@ -2,7 +2,7 @@
 title: "Assignment1"
 author:
 - Michael Nefiodovas(22969312)
-- Carmen Leong(123456789)
+- Carmen Leong(22789943)
 - Nicholas Choong(21980614)
 output:
   pdf_document: default
@@ -11,7 +11,7 @@ output:
 ---
 
 ```{r, include=FALSE}
-setwd("~/Library/CloudStorage/OneDrive-TheUniversityofWesternAustralia/Data Sets")
+#setwd("~/Library/CloudStorage/OneDrive-TheUniversityofWesternAustralia/Data Sets")
 
 rm(list = ls())
 
@@ -28,7 +28,6 @@ options(stringsAsFactors = FALSE)
 ```
 
 ```{r, include=FALSE, results='hide', message=FALSE, warning=FALSE, fig.show='hide'}
-library(ggbiplot)
 library(reshape2)
 library(tidyverse)
 library(MASS)
@@ -91,17 +90,17 @@ df0 <- within(df0, Period[Year <= 42] <- 1)
 df0 <- within(df0, Period[Year > 42] <- 2)
 
 ggplot(df0, (aes(logLength, group = Period, colour = Period))) +
-  geom_density()
+  geom_density() + ggtitle("Density graph for LogLength")
 
 ggplot(df0, (aes(logPower, group = Period, colour = Period))) +
-  geom_density()
+  geom_density() + ggtitle("Density graph for LogWeight")
 ```
 
-For the smooth histogram for logLength, the density graph for both period is skewed to the right, indicating that the mean is less than the median. We can also see from the graph there are only one peak in the distribution for both period, indicating that they are unimodal.
+The logLength density graphs for both periods are skewed to the right and are unimodal. However, there are some changes over time on the logLength density graph. The density graph for period 2 is less skewed to the right and is more distributed across the x-axis in the positive direction when compared to the density graph for period 1.
 
-However, the density graph for period 2 is less skewed to the right and more distributed across as compared to the density graph for period 1.
+On the other hand, the logPower density graph for period 1 is not skewed and is unimodal. However, the logPower density graph for period 2 is skewed to the left and is bimodal.
 
-For the smooth histogram for logPower, the density graph for period 1 is not skewed and can be considered as a normal distribution. However, the density graph for period 2 is skewed to the left and is bimodal.
+It can also be seen that both logPower and logLength increases over time as shown from the scale on the x-axis.
 
 ## (b) Construct contour plots of the 2D smoothed histograms of the pairs (logPower, logWeight) and (logSpeed, logLength). Describe the shapes of the density plot and discuss how they change over time.
 
@@ -117,13 +116,13 @@ ggplot(df0, aes(logSpeed, logLength)) +
   theme(legend.position = "bottom")
 ```
 
-For the first density plot which represent the 2D smoothed histograms of the pairs (logPower, logWeight). We can see that the graph is unimodel and is skewed in the direction of positive correlation for both periods, indicating a strong positive correlation between the speed and the weight of an aircraft. We can also observe from the graph that there are more plots of period 2 on the upper right quadrant, indicating that aircraft are designed to be more powerful and heavier over time.
+For the first density plot which represent the 2D smoothed histograms of the pairs (logPower, logWeight). We can see that the graph is unimodel and is skewed in the direction of positive correlation for both periods, indicating a strong positive correlation between logspeed and logweight. It can also be seen that this correlation became stronger over time. The graph also shows that the plots of period 2 are distributed across larger range of logPower and logWeight as compared to period 1, indicating that aircraft are designed to be more powerful and heavier over time.
 
-For the second density plot which represent the 2D smoothed histograms of the pairs (logSpeed, logLength). We can see that the pattern of the graph is different for the two periods. For period 1, the graph is more concentrated and can be seen as a unimodel graph. However, for period 2, the graph is more distributed and can be considered as a multimodel graph. It can also be observed from the graph that, over the time, aircrafts are designed to be more specialised and are of more variation in speed and length, such as faster aircraft or longer aircraft.
+For the second density plot which represent the 2D smoothed histograms of the pairs (logSpeed, logLength), there's a very low correlation between logSpeed and logLength. We can see that the pattern of the graph is also different for the two periods. For period 1, the graph is more concentrated and can be seen as a unimodel graph. However, for period 2, the graph is more distributed and can be considered as a multimodel graph. It can be understood that, over the time, aircrafts are designed to be more specialised and are of more variation in speed and length, such as faster aircraft or longer aircraft.
 
 ## (c) For which pair of variables would you expect the largest change in correlation or shape of their density over time and why?
 
-I would expect the pair of variable logSpeed, logLength to have the largest change in correlation or shape of their density over time. The density plot for the pairs (logPower, logWeight) shows consistent correlation between power and weight over the two periods. However, the density plot for the pairs (logSpeed, logLength) shows that the correlation between speed and length changes over time as we can see that the graph chages from unimodel to multimodel over the two periods.
+I would expect the pair of variable logSpeed, logLength to have the largest change in correlation or shape of their density over time. The density plot for the pairs (logPower, logWeight) shows consistent and strong correlation between power and weight over the two periods; this may be because more power is required for heavier airplanes. However, the density plot for the pairs (logSpeed, logLength) shows that the correlation between speed and length changes over time as we can see that the graph chages from unimodel to multimodel over the two periods, most possibly because there are little relationship between the length and speed of airplanes.
 
 # Question 3
 
