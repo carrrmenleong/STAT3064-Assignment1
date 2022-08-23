@@ -177,7 +177,7 @@ fviz_screeplot(log_aircraft2_pr, choice = "eigenvalue") +
   xlab("Component")
 ```
 
-The figures above show that the first components of both plots are greater than 35. These principal components explain 99% of the variation in both periods. The figures also show that the eigenvalues start to form a straight line after the second principal component. The first eigenvalue increased by approximately two times in the second period.
+The figures above show that the first components of both plots are greater than 35. These principal components explain 99% of the variation in both periods. The figures also show a kink at the second principal component as we can see that the eigenvalues start to form a horizontal straight line after the second principal component. The first eigenvalue increased by approximately two times in the second period.
 
 ## (c) Show score plots for the first three PCs for each period. Comment on the results.
 
