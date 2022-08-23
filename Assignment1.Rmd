@@ -356,7 +356,9 @@ Therefore, in total, our sample is: 400 x 20
 
 They are very similar, the largest deviation occurs in the first PC which has a range of about 9-11.
 
-![](images/paste-64366D66.png)
+```{r}
+print(p)
+```
 
 ## Student-t Distribution Analysis
 
@@ -391,12 +393,12 @@ colnames(m) <- c("value", "Var1")
 m["Var2"] <- rep(0, 20)
 
 data <- melt(t(mat))
-p <- data %>%
+p1 <- data %>%
   ggplot(aes(x = Var1, y = value, group = Var2)) +
   geom_line(alpha = 0.1) +
   geom_line(data = m, colour = "red")
 
-print(p)
+print(p1)
 print(round(meaneig, 3))
 ```
 
@@ -409,6 +411,11 @@ print(round(meaneig, 3))
 **Display the 50 vectors of eigenvalues and their mean vector in an eigenvalue or scree plot. How similar are these eigenvalue plots? Where does the largest deviation from the mean vector occur?**
 
 The largest deviation occurs in the first PC which is approximately 4. It's varies quite a lot (range is about 8-35).
+
+```{r}
+print(p1)
+```
+
 
 ## (g) **Compare the results of the two different simulations and comment on interesting findings and differences between them. Why do we expect differences between the pairs of simulations?**
 
