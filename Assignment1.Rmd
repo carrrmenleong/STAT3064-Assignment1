@@ -414,7 +414,7 @@ print(round(meaneig1, 3))
 
 **Display the 50 vectors of eigenvalues and their mean vector in an eigenvalue or scree plot. How similar are these eigenvalue plots? Where does the largest deviation from the mean vector occur?**
 
-The largest deviation occurs in the first PC which is approximately 4. It's varies quite a lot (range is about 8-35).
+The largest deviation occurs in the first PC which is approximately 4. It's varies quite a lot (range is about 8-13).
 
 ```{r}
 print(p1)
