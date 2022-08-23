@@ -45,7 +45,7 @@ library(factoextra)
 
 Reproducible calculation means that the result of the calculation will always be the same when given the same input to the calculation. The ability to reproduce simulations refers to the ability for a two separate users to run a simulation study and receive the same results given that they configure the model with the same parameters. Because the random number generators are deterministic, using and sharing fixed seed values with others will allow them to get the same results.
 
-These are important in situations where you want to share your results with others since they may want to verify your results. If they re-run your code, they can see the results you generated. Reproduciblity is also helpful in debugging programs written to do simulation\
+These are important in situations where you want to share your results with others since they may want to verify your results. If they re-run your code, they can see the results you generated. Reproduciblity is also helpful in debugging programs written to do simulation.
 
 ## (b) When is it a sensible strategy to use the Gaussian model in a simulation? When is it not and why? (Hint. Your answer could contain an illustrative example.)
 
@@ -96,7 +96,7 @@ The logLength density graphs for both periods are skewed to the right and are un
 
 On the other hand, the logPower density graph for period 1 is not skewed and is unimodal. However, the logPower density graph for period 2 is skewed to the left and is bimodal.
 
-It can also be seen that both logPower and logLength increases over time as shown from the scale on the x-axis.
+It can also be seen that the range of both logPower and logLength increases over time as shown from the scale on the x-axis.
 
 ## (b) Construct contour plots of the 2D smoothed histograms of the pairs (logPower, logWeight) and (logSpeed, logLength). Describe the shapes of the density plot and discuss how they change over time.
 
@@ -118,7 +118,7 @@ For the second density plot which represent the 2D smoothed histograms of the pa
 
 ## (c) For which pair of variables would you expect the largest change in correlation or shape of their density over time and why?
 
-I would expect the pair of variable logSpeed, logLength to have the largest change in correlation or shape of their density over time. The density plot for the pairs (logPower, logWeight) shows consistent and strong correlation between power and weight over the two periods; this may be because more power is required for heavier airplanes. However, the density plot for the pairs (logSpeed, logLength) shows that the correlation between speed and length changes over time as we can see that the graph chages from unimodel to multimodel over the two periods, most possibly because there are little relationship between the length and speed of airplanes.
+I would expect the pair of variable logSpeed, logLength to have the largest change in correlation or shape of their density over time. The density plot for the pairs (logPower, logWeight) shows consistent and strong correlation between power and weight over the two periods; this may be because more power is required for heavier airplanes. However, the density plot for the pairs (logSpeed, logLength) shows that the correlation between speed and length changes over time as we can see that the graph changes from unimodel to multimodel over the two periods, most possibly because there are little relationship between the length and speed of airplanes.
 
 # Question 3
 
@@ -350,7 +350,10 @@ Therefore, in total, our sample is: 400 x 20
 
 ## (d) **Calculate the mean vector of eigenvalues over the 50 repetitions and list/print this mean vector.**
 
-[10.180 4.442 1.918 1.260 0.982 0.845 0.637 0.397 0.348 0.272 0.213 0.172 0.130 0.069 0.046 0.032 0.024 0.013]
+```{r}
+print(round(meaneig, 3))
+```
+
 
 ## (e) **Display the 50 vectors of eigenvalues and their mean vector in an eigenvalue or scree plot. How similar are these eigenvalue plots? Where does the largest deviation from the mean vector occur?**
 
@@ -385,7 +388,7 @@ for (i in 1:50) {
 }
 
 mat <- t(do.call("cbind", eig))
-meaneig <- colMeans(mat)
+meaneig1 <- colMeans(mat)
 
 m <- as.data.frame(meaneig)
 m["x"] <- 1:20
@@ -399,14 +402,17 @@ p1 <- data %>%
   geom_line(data = m, colour = "red")
 
 print(p1)
-print(round(meaneig, 3))
+print(round(meaneig1, 3))
 ```
 
 ## (f) **Repeat parts (b) to (e) with 250 samples from the t-distribution** $t_{10}(\mu_1, \Sigma_{01})$ **and 150 samples from t-distribution** $t_3(\mu_2, \Sigma_{02})$**. (Hint.** $\Sigma_{0k}$ **is the scale matrix which is obtained from the covariance matrix** $\Sigma_k$ **using the following relationship** $\Sigma_k = \frac{\nu}{\nu - 2} \Sigma_{0k}$**, with** $\nu$ **the degree of freedom of the t-distribution and** $k = 1$ **and** $2$ **here.)**
 
 **Calculate the mean vector of eigenvalues over the 50 repetitions and list/print this mean vector.**
 
-[10.991 4.108 1.728 1.378 1.022 0.862 0.724 0.449 0.349 0.287 0.241 0.189 0.137 0.112 0.074 0.031 0.024 0.017]
+```{r}
+print(round(meaneig1, 3))
+```
+
 
 **Display the 50 vectors of eigenvalues and their mean vector in an eigenvalue or scree plot. How similar are these eigenvalue plots? Where does the largest deviation from the mean vector occur?**
 
