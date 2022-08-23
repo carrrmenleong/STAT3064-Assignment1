@@ -256,7 +256,7 @@ log_aircraft1_pr$rotation[, "PC1"] # Period 1
 log_aircraft2_pr$rotation[, "PC1"] # Period 2
 ```
 
-logWeight contributed the most in the first period, whereas logPower contributed the most in the second. The contribution from logPower increased drastically in period 2, and logRange has lesser contributions in period 2 than in period 1. The contributions from the last four variables seem insignificant compared to those from logWeight and logPower.
+logWeight contributed the most in the first period, whereas logPower contributed the most in the second. The contribution from logPower increased drastically in period 2, and logRange and logWeight have lesser contributions in period 2 than in period 1. The contributions from the last four variables seem insignificant compared to those from logWeight and logPower.
 
 ## (e) Based on your analysis, discuss the main changes that have occurred over time.
 
@@ -354,7 +354,6 @@ Therefore, in total, our sample is: 400 x 20
 print(round(meaneig, 3))
 ```
 
-
 ## (e) **Display the 50 vectors of eigenvalues and their mean vector in an eigenvalue or scree plot. How similar are these eigenvalue plots? Where does the largest deviation from the mean vector occur?**
 
 They are very similar, the largest deviation occurs in the first PC which has a range of about 9-11.
@@ -413,7 +412,6 @@ print(round(meaneig1, 3))
 print(round(meaneig1, 3))
 ```
 
-
 **Display the 50 vectors of eigenvalues and their mean vector in an eigenvalue or scree plot. How similar are these eigenvalue plots? Where does the largest deviation from the mean vector occur?**
 
 The largest deviation occurs in the first PC which is approximately 4. It's varies quite a lot (range is about 8-35).
@@ -421,7 +419,6 @@ The largest deviation occurs in the first PC which is approximately 4. It's vari
 ```{r}
 print(p1)
 ```
-
 
 ## (g) **Compare the results of the two different simulations and comment on interesting findings and differences between them. Why do we expect differences between the pairs of simulations?**
 
