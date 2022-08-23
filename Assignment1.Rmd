@@ -289,7 +289,7 @@ The covariance matrix is $20 \times 20$.
 
 ```{r, results='hide', message=FALSE, warning=FALSE, fig.show='hide'}
 
-set.seed(2733)
+set.seed(27312)
 N1 <- 250
 N2 <- 150
 eig <- list()
@@ -367,7 +367,7 @@ print(p)
 
 ```{r, results='hide', message=FALSE, warning=FALSE, fig.show='hide'}
 
-set.seed(2733)
+set.seed(27312)
 N1 <- 250
 N2 <- 150
 df1 <- 10
